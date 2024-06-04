@@ -1,18 +1,16 @@
-from flask import Flask, request, render_template
+from flask import Flask, render_template, request
 import pandas as pd
-import numpy as np
 import pickle
-from sklearn.feature_extraction import DictVectorizer
-from sklearn.linear_model import LinearRegression
+import os
 
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__, template_folder='templates', static_folder='static')
 
 # Load the model
-with open('Week_4/linear_regression_model.pkl', 'rb') as model_file:
+with open('linear_regression_model.pkl', 'rb') as model_file:
     model = pickle.load(model_file)
 
 # Load the vectorizer
-with open('Week_4/vectorizer.pkl', 'rb') as vectorizer_file:
+with open('vectorizer.pkl', 'rb') as vectorizer_file:
     vectorizer = pickle.load(vectorizer_file)
 
 @app.route('/')
@@ -30,7 +28,7 @@ def predict():
 
         # Create a dataframe for the input data
         input_data = pd.DataFrame([{'PULocationID': PULocationID, 'DOLocationID': DOLocationID}])
-        
+
         # Convert location IDs to strings
         input_data['PULocationID'] = input_data['PULocationID'].astype(str)
         input_data['DOLocationID'] = input_data['DOLocationID'].astype(str)
@@ -47,13 +45,8 @@ def predict():
         prediction_text = f"An error occurred: {e}"
 
     return render_template('index.html', prediction_text=prediction_text)
-    #     # Return the prediction result
-    #     time = prediction[0]
-    #     print(f"time =%f ", time)
-    #     return render_template('index.html', prediction_text='Predicted Trip Duration: {:.2f} minutes'.format(time))
 
-    # except Exception as e:
-    #     return render_template('index.html', prediction_text=f"An error occurred: {e}")
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5001)
+    port = int(os.environ.get("PORT", 8080))
+    app.run(debug=True, host='0.0.0.0', port=port)
