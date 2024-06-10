@@ -1,0 +1,28 @@
+file_type: csv
+dataset_name: brewery_data
+file_name: brewery_data
+table_name: brewery_records
+inbound_delimiter: ","
+outbound_delimiter: "|"
+skip_leading_rows: 1
+columns: 
+   - batch_id
+   - brew_date
+   - beer_style
+   - sku
+   - location
+   - fermentation_time
+   - temperature
+   - ph_level
+   - gravity
+   - alcohol_content
+   - bitterness
+   - color
+   - ingredient_ratio
+   - volume_produced
+   - total_sales
+   - quality_score
+   - brewhouse_efficiency
+   - loss_during_brewing
+   - loss_during_fermentation
+   - loss_during_bottling_kegging
